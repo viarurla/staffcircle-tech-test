@@ -1,8 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Mime;
 using System.Threading.Tasks;
+using api.Interfaces;
+using api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace api.Controllers
 {
@@ -10,16 +15,53 @@ namespace api.Controllers
     [ApiController]
     public class SmsController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult Get()
+        private readonly ILogger<SmsController> _logger;
+        private readonly ISmsMessageValidator _messageValidator;
+        private readonly ITwilioApiService _apiService;
+
+        public SmsController(ILogger<SmsController> logger, ISmsMessageValidator messageValidator, ITwilioApiService apiService)
         {
-            return this.Ok(new string[] { "value1", "value2" });
+            _logger = logger;
+            _messageValidator = messageValidator;
+            _apiService = apiService;
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] string value)
+        [HttpGet("GetMessages")]
+        public async Task<OkObjectResult> GetMessages([FromQuery]MessageQueryParameters queryParameters)
         {
-            return this.Ok();
+            try
+            {
+                var messages = await _apiService.GetSmsMessagesAsync(queryParameters);
+                return new OkObjectResult(messages);
+            }
+            // todo: handle exception more specifically
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
+
+        [HttpPost("PostMessage")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        public async Task<IActionResult> Post(SmsMessageRequest request)
+        {
+            // todo: remove hard-coding of the account SMS in a real application
+            request.FromMsisdn = "+447700154542";
+            var issues = await _messageValidator.ValidateAsync(request);
+            if (issues.Any())
+            {
+                // Very rudimentary, but suitable as a proof of concept
+                var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    ReasonPhrase = string.Join(", ", issues.Select(msg => msg.Message))
+                };
+                return new BadRequestObjectResult(resp);
+            }
+
+            var result = await _apiService.SendSmsMessageAsync(request);
+            return new OkObjectResult(result);
+        }
+        
     }
 }

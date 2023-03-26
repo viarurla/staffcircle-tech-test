@@ -1,0 +1,20 @@
+version: '3'
+services:
+  prism:
+    container_name: prism
+    image: stoplight/prism:4
+    ports:
+      - '4010:4010'
+    command: mock -h 0.0.0.0 https://raw.githubusercontent.com/twilio/twilio-oai/main/spec/json/twilio_api_v2010.json
+#  reverse:
+#    container_name: reverse
+#    hostname: reverse
+#    image: nginx
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    volumes:
+#      - ./nginx/:/etc/nginx
+#      - ./nginx/cert.crt:/secrets/ssl_certificate
+#      - ./nginx/private.key:/secrets/private_key
+#      - ./nginx/logs/:/var/log/nginx/

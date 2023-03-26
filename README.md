@@ -5,7 +5,7 @@ Thanks for speaking with the team at StaffCircle, and agreeing to show us your a
 
 This project is a opportunity to show us your strengths and demonstrate what you feel you can bring to the team and product. 
 
-The aim of this project is to help you demostrate your C\#, ASP.NET, front-end skills. If you are struggling on a particular area, try to move on and focus on the areas that will best demonstrate your abilities.
+The aim of this project is to help you demonstrate your C\#, ASP.NET, front-end skills. If you are struggling on a particular area, try to move on and focus on the areas that will best demonstrate your abilities.
 
 Rather than prescribe a list of tasks, we are keen to see how you approach a real world set of requirements. With this in mind the project has a set of documented requirements (detailed below) with some minor guidance around approach as we don't want this to take you all night.
 
@@ -13,7 +13,7 @@ Complete as many of the requirements as you can, and then we will review the cod
 
 ### Setup
 1. [Visual Studio](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&rel=15) or [Visual Code](https://code.visualstudio.com/docs?dv=win&wt.mc_id=DX_841432&sku=codewin)
-2. [NodeJs](https://nodejs.org/en/)
+2. [NodeJs](https://nodejs.org/en/) (v16 or lower to avoid SSL issues)
 3. [Twilio Account](https://www.twilio.com/try-twilio)
 
 All resources required are available for free.
@@ -22,20 +22,20 @@ All resources required are available for free.
 1. Api Project
 A dotnet core api project being used to host a restful api. To run the project, either click debug in Visual Studio or VS Code or run the following from the command line in the api directory: 
     ```
-	dotnet restore
-	dotnet run
+	  dotnet restore
+	  dotnet run
 	```
 2. UI Website
 A VueJs single page application (SPA) being used to host the user interface. To run the project, run the following commands from the command line in the ui directory:
     ```bash
-	npm i
-	npm run serve
+	  npm i
+	  npm run serve
 	```
 3. Api Test Project
 A xUnit test project used to test the Api Project. To run the project, either use Visual Studio Test Explorer or run the following commands from the command line in the api.tests directory:
     ```
-	dotnet restore
-	dotnet test
+	  dotnet restore
+	  dotnet test
 	```
 ### Requirements
 #### Background
